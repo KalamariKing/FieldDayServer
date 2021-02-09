@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <string.h>
+#include <stdio.h>
 #include <SFML/Network.hpp>
 
 using namespace std;
@@ -9,10 +11,7 @@ using namespace std;
 class advisory {
 
 public:
-	string id;
-	int points;
+  string id, name;
 
-	int easyChallengesCompleted;
-	int mediumChallengesCompleted;
-	int hardChallengesCompleted;
+  int grade, points, easyChallengesCompleted, mediumChallengesCompleted, hardChallengesCompleted;
 };
