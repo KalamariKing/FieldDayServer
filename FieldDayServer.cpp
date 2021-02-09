@@ -6,7 +6,6 @@ NOTES TO SELF
 
 */
 
-
 #include "Headers.h"
 
 // sf::TcpListener listener;
@@ -15,11 +14,11 @@ NOTES TO SELF
 // sf::TcpSocket socket;
 
 advisory advisory1, advisory2, advisory3, advisory4, advisory5, advisory6, advisory7, advisory8, advisory9, advisory10, advisory11, advisory12, advisory13, advisory14, advisory15, advisory16, advisory17, advisory18, advisory19, advisory20, advisory21, advisory22, advisory23, advisory24, advisory25, advisory26, advisory27, advisory28, advisory29, advisory30;
-advisory* curr;
+advisory* curr = NULL;
 
 string id, output;
 char action[2] = "0";
-int inValue, value;
+int value;
 
 int main()
 {
@@ -47,11 +46,11 @@ int main()
     if (strncmp(action, "1", 2) == 0)  // Task
     {
       // Copy this line for each advisory
-      if (id == "Griffin") { *curr = &advisory1; }
+      if (id == "Griffin") { curr = &advisory1; }
       
       // Leave these lines once at the bottom
-      *curr->points += value;
-      cout << "Added " << value << " points to " << *curr->name << "'s grade " << *curr->grade << " team." << endl;
+      curr->points += value;
+      cout << "Added " << value << " points to " << curr->name << "'s grade " << curr->grade << " team." << endl;
     }
 
     else if (strcmp(action, "2") == 0)  // Check Scores
