@@ -3,86 +3,78 @@
 sf::TcpListener listener;
 sf::Packet packet;
 
-sf::TcpSocket link;
+sf::TcpSocket socket;
 
-advisory advisory1;
-advisory advisory2;
-advisory advisory3;
-advisory advisory4;
-advisory advisory5;
-advisory advisory6;
-advisory advisory7;
-advisory advisory8;
-advisory advisory9;
-advisory advisory10;
-advisory advisory11;
-advisory advisory12;
-advisory advisory13;
-advisory advisory14;
-advisory advisory15;
-advisory advisory16;
-advisory advisory17;
-advisory advisory18;
-advisory advisory19;
-advisory advisory20;
-advisory advisory21;
-advisory advisory22;
-advisory advisory23;
-advisory advisory24;
-advisory advisory25;
-advisory advisory26;
-advisory advisory27;
-advisory advisory28;
-advisory advisory29;
-advisory advisory30;
+advisory advisory1, advisory2, advisory3, advisory4, advisory5, advisory6, advisory7, advisory8, advisory9, advisory10, advisory11, advisory12, advisory13, advisory14, advisory15, advisory16, advisory17, advisory18, advisory19, advisory20, advisory21, advisory22, advisory23, advisory24, advisory25, advisory26, advisory27, advisory28, advisory29, advisory30;
+advisory* curr;
 
-string id;
-string action;
-int inValue;
-int value;
-string output;
-
-sf::Uint32 grade5Score = 5;
-sf::Uint32 grade6Score = 9;
-sf::Uint32 grade7Score = 3;
-sf::Uint32 grade8Score = 1;
+string id, action, output;
+int inValue, value;
 
 int main()
 {
-    while (true)
+  while (true)
+  {
+    if (listener.listen(53000) != sf::Socket::Done)
     {
-        if (listener.listen(53000) != sf::Socket::Done)
-        {
-            // error...
-        }
-
-        if (listener.accept(link) != sf::Socket::Done)
-        {
-            // error...
-        }
-
-        link.receive(packet);
-        packet >> id >> action >> value;
-
-        if (action == "task")
-        {
-            if (id == "Griffin")
-            {
-                advisory1.points += value;
-
-                cout << "Added " << value << " points to Mrs. Griffin's grade 8 team." << endl;
-
-                link.disconnect();
-            }
-        }
-
-        if (action == "score")
-        {
-            packet << grade5Score << grade6Score << grade7Score << grade8Score;
-
-            link.send(packet);
-            link.disconnect();
-        }
-
+      cout << "Error attempting socket hook on port 53000" << endl;
     }
+
+    if (listener.accept(socket) != sf::Socket::Done)
+    {
+      cout << "Error accepting socket" << endl;
+    }
+
+    socket.receive(packet);
+    
+    if (packet >> id >> action >> value)
+    {
+      // success
+    } else {
+      cout << "Error reading: too much data" << endl;
+    }
+
+    if (strcmp(action, "1") == 0)  // Task
+    {
+      // Copy this line for each advisory
+      if (id == "Griffin") { *curr = &advisory1; }
+      
+      // Leave these lines once at the bottom
+      *curr.points += value;
+      cout << "Added " << value << " points to " << *curr.name << "'s grade " << *curr.grade << " team." << endl;
+    }
+
+    else if (strcmp(action, "2") == 0)  // Check Scores
+    {
+      socket.send(
+        // Grade 5 advisories:
+        advisory1.points +
+        advisory2.points +
+        advisory3.points +
+        advisory4.points <<
+        
+        // Grade 6 advisories:
+        advisory1.points +
+        advisory2.points +
+        advisory3.points +
+        advisory4.points <<
+        
+        // Grade 7 advisories:
+        advisory1.points +
+        advisory2.points +
+        advisory3.points +
+        advisory4.points <<
+        
+        // Grade 8 advisories:
+        advisory1.points +
+        advisory2.points +
+        advisory3.points +
+        advisory4.points <<
+      );
+    }
+    else {
+      cout << "Error reading: illegal action, action=" << action << ", required 1 or 2" << endl;
+    }
+    
+  }
 }
