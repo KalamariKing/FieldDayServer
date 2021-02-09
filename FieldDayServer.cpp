@@ -1,3 +1,12 @@
+/*
+NOTES TO SELF
+ - Update advisory declarations to include name and grade
+ - Update to match any portion of lowercase-d name, not exact match of ID
+ - Get rid of ID, instead match portion of name
+
+*/
+
+
 #include "Headers.h"
 
 sf::TcpListener listener;
@@ -37,7 +46,11 @@ int main()
     if (strcmp(action, "1") == 0)  // Task
     {
       // Copy this line for each advisory
-      if (id == "Griffin") { *curr = &advisory1; }
+      if (id == "Teacher1")  { *curr = &advisory1   }
+      if (id == "Teacher2")  { *curr = &advisory2;  }
+      if (id == "Teacher3")  { *curr = &advisory3;  }
+      // ...
+      if (id == "Teacher30") { *curr = &advisory30; }
       
       // Leave these lines once at the bottom
       *curr.points += value;
